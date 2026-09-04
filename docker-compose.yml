@@ -4,7 +4,7 @@ services:
     container_name: account-db
     environment:
       POSTGRES_DB: account_db
-      POSTGRES_USER: postegres
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
