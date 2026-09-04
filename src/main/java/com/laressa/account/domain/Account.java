@@ -4,14 +4,15 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 @Table(name = "accounts")
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID accountId;
 
     @NotBlank
     @Column(nullable = false)
@@ -38,7 +39,7 @@ public class Account {
     public Account() {
     }
 
-    public Account(String clientName, String document, BigDecimal balance, AccountType accountType, AccountStatus accountStatus) {
+    public Account(String clientName, String document, AccountType accountType) {
         this.clientName = clientName;
         this.document = document;
         this.balance = BigDecimal.ZERO;
@@ -46,8 +47,8 @@ public class Account {
         this.accountStatus = AccountStatus.ATIVA;
     }
 
-    public int getId() {
-        return id;
+    public UUID getAccountId() {
+        return accountId;
     }
 
     public String getClientName() {
