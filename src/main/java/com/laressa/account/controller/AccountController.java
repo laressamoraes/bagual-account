@@ -1,9 +1,16 @@
 package com.laressa.account.controller;
 
-import com.laressa.account.repository.AccountRepository;
+import com.laressa.account.domain.Account;
+import com.laressa.account.dto.AccountRequestDTO;
+import com.laressa.account.dto.AccountResponseDTO;
 import com.laressa.account.service.AccountService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/accounts")
@@ -13,5 +20,23 @@ public class AccountController {
 
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
+    }
+
+    @PostMapping
+    public ResponseEntity<AccountResponseDTO> createAccount(@Valid @RequestBody AccountRequestDTO accountRequest) {
+        Account account = accountService.createAccount(accountRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(AccountResponseDTO.fromEntity(account));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AccountResponseDTO> findById(@PathVariable UUID id) {
+        Account account = accountService.findById(id);
+        return ResponseEntity.ok(AccountResponseDTO.fromEntity(account));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AccountResponseDTO>> findAll() {
+        List<AccountResponseDTO> accounts = accountService.findAll().stream().map(AccountResponseDTO::fromEntity).toList();
+        return ResponseEntity.ok(accounts);
     }
 }
