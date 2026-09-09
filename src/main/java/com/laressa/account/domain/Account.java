@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
-@Table(name = "accounts")
+@Table(name = "accounts", uniqueConstraints = {@UniqueConstraint(columnNames = {"document", "account_type"})})
 public class Account {
 
     @Id
@@ -20,7 +20,7 @@ public class Account {
     private String clientName;
 
     @NotBlank
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String document;
 
     @Column(nullable = false, precision = 19, scale = 2)
