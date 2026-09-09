@@ -1,5 +1,6 @@
 package com.laressa.account.domain;
 
+import com.laressa.account.exception.InsufficientBalanceException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -45,6 +46,17 @@ public class Account {
         this.balance = BigDecimal.ZERO;
         this.accountType = accountType;
         this.accountStatus = AccountStatus.ATIVA;
+    }
+
+    public void debit(BigDecimal amount) {
+        if(this.balance.compareTo(amount) <= 0) {
+            throw new InsufficientBalanceException("Saldo insuficiente para débito de " + amount);
+        }
+        this.balance = this.balance.subtract(amount);
+    }
+
+    public void credit(BigDecimal amount) {
+        this.balance = this.balance.add(amount);
     }
 
     public UUID getAccountId() {

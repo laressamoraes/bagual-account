@@ -7,6 +7,7 @@ import com.laressa.account.exception.AccountNotFoundException;
 import com.laressa.account.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,5 +35,17 @@ public class AccountService {
 
     public List<Account> findAll()  {
         return accountRepository.findAll();
+    }
+
+    public Account debit (UUID accountId, BigDecimal amount) {
+        Account  account = findById(accountId);
+        account.debit(amount);
+        return accountRepository.save(account);
+    }
+
+    public Account credit (UUID accountId, BigDecimal amount) {
+        Account  account = findById(accountId);
+        account.credit(amount);
+        return accountRepository.save(account);
     }
 }

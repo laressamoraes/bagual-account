@@ -3,6 +3,7 @@ package com.laressa.account.controller;
 import com.laressa.account.domain.Account;
 import com.laressa.account.dto.AccountRequestDTO;
 import com.laressa.account.dto.AccountResponseDTO;
+import com.laressa.account.dto.AmountRequestDTO;
 import com.laressa.account.service.AccountService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -38,5 +39,17 @@ public class AccountController {
     public ResponseEntity<List<AccountResponseDTO>> findAll() {
         List<AccountResponseDTO> accounts = accountService.findAll().stream().map(AccountResponseDTO::fromEntity).toList();
         return ResponseEntity.ok(accounts);
+    }
+
+    @PatchMapping("/{id}/debit")
+    public ResponseEntity<AccountResponseDTO> debit(@PathVariable UUID id, @Valid @RequestBody AmountRequestDTO amountRequest) {
+        Account account = accountService.debit(id, amountRequest.amount());
+        return  ResponseEntity.ok(AccountResponseDTO.fromEntity(account));
+    }
+
+    @PatchMapping("/{id}/credit")
+    public ResponseEntity<AccountResponseDTO> credit(@PathVariable UUID id, @Valid @RequestBody AmountRequestDTO amountRequest) {
+        Account account = accountService.credit(id, amountRequest.amount());
+        return ResponseEntity.ok(AccountResponseDTO.fromEntity(account));
     }
 }

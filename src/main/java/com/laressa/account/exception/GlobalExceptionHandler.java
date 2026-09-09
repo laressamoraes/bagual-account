@@ -20,4 +20,34 @@ public class GlobalExceptionHandler {
         );
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
     }
+
+    @ExceptionHandler(InsufficientBalanceException.class)
+    public ResponseEntity<Map<String, Object>> handleInsufficientBalance(InsufficientBalanceException ex) {
+        Map<String,Object> body = Map.of(
+                "timestamp: ", LocalDateTime.now(),
+                "status: ", HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "message: ", ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(body);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, Object>> handleIllegalArgument(IllegalArgumentException ex) {
+        Map<String,Object> body = Map.of(
+                "timestamp: ", LocalDateTime.now(),
+                "status: ", HttpStatus.BAD_REQUEST.value(),
+                "message: ", ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<Map<String, Object>> handleIllegalState(IllegalStateException ex) {
+        Map<String,Object> body = Map.of(
+                "timestamp: ", LocalDateTime.now(),
+                "status: ", HttpStatus.CONFLICT.value(),
+                "message: ", ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
+    }
 }
