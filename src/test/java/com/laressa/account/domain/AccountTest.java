@@ -1,5 +1,6 @@
 package com.laressa.account.domain;
 
+import com.laressa.account.exception.InsufficientBalanceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,6 +53,76 @@ class AccountTest {
         account.debit(new BigDecimal ("100.00"));
 
         assertThat(account.getBalance()).isEqualByComparingTo(BigDecimal.ZERO);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCreditingZeroAmount() {
+        assertThatThrownBy(() -> account.credit(BigDecimal.ZERO))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("positivo");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCreditingNegativeAmount() {
+        assertThatThrownBy(() -> account.credit(new BigDecimal("-10.00")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("positivo");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenCreditingBlockedAccount() {
+        account.block();
+
+        assertThatThrownBy(() -> account.credit(new BigDecimal("50.00")))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("não está ativa");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDebitExceedsBalance() {
+        account.credit(new BigDecimal ("50.00"));
+
+        assertThatThrownBy(() -> account.debit(new BigDecimal("100.00")))
+                .isInstanceOf(InsufficientBalanceException.class)
+                .hasMessageContaining("Saldo insuficiente");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDebitingZeroAmount() {
+        assertThatThrownBy(() -> account.debit(BigDecimal.ZERO))
+            .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDebitingAmountExceedsBalance() {
+        assertThatThrownBy(() -> account.debit(new BigDecimal("-10.00")))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDebitingBlockedAccount() {
+        account.credit(new BigDecimal ("100.00"));
+        account.block();
+
+        assertThatThrownBy(() -> account.debit(new BigDecimal("50.00")))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("não está ativa");
+    }
+
+    @Test
+    void shouldBlockActiveAccount() {
+        account.block();
+
+        assertThat(account.getAccountStatus()).isEqualTo(AccountStatus.BLOQUEADA);
+    }
+
+    @Test
+    void shouldActivateBlockedAccount() {
+        account.block();
+
+        account.activate();
+
+        assertThat(account.getAccountStatus()).isEqualTo(AccountStatus.ATIVA);
     }
 
 }
