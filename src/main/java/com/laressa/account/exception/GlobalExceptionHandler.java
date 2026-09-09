@@ -1,5 +1,6 @@
 package com.laressa.account.exception;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,6 +20,16 @@ public class GlobalExceptionHandler {
                 "message: ", ex.getMessage()
         );
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, Object>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        Map<String,Object> body = Map.of(
+                "timestamp: ", LocalDateTime.now(),
+                "status: ", HttpStatus.CONFLICT.value(),
+                "message: ", "Já existe um cadastro com este documento e tipo de conta!"
+        );
+        return  ResponseEntity.status(HttpStatus.CONFLICT).body(body);
     }
 
     @ExceptionHandler(InsufficientBalanceException.class)
