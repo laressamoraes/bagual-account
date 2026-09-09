@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 
 public record AmountRequestDTO(
 
-    @NotNull @Positive BigDecimal amount
+    @NotNull(message = "O valor não pode ser nulo")
+    @Positive(message = "O valor não pode ser negativo")
+    BigDecimal amount
 ) {
 }
