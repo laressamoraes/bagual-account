@@ -15,9 +15,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AccountNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleAccountNotFoundException(AccountNotFoundException ex) {
         Map<String,Object> body = Map.of(
-                "timestamp: ", LocalDateTime.now(),
-                "status: ", HttpStatus.NOT_FOUND.value(),
-                "message: ", ex.getMessage()
+                "timestamp", LocalDateTime.now(),
+                "status", HttpStatus.NOT_FOUND.value(),
+                "message", ex.getMessage()
         );
         return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
     }
@@ -25,9 +25,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Map<String, Object>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         Map<String,Object> body = Map.of(
-                "timestamp: ", LocalDateTime.now(),
-                "status: ", HttpStatus.CONFLICT.value(),
-                "message: ", "Já existe um cadastro com este documento e tipo de conta!"
+                "timestamp", LocalDateTime.now(),
+                "status", HttpStatus.CONFLICT.value(),
+                "message", "Já existe um cadastro com este documento e tipo de conta!"
         );
         return  ResponseEntity.status(HttpStatus.CONFLICT).body(body);
     }
@@ -35,9 +35,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InsufficientBalanceException.class)
     public ResponseEntity<Map<String, Object>> handleInsufficientBalance(InsufficientBalanceException ex) {
         Map<String,Object> body = Map.of(
-                "timestamp: ", LocalDateTime.now(),
-                "status: ", HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                "message: ", ex.getMessage()
+                "timestamp", LocalDateTime.now(),
+                "status", HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                "message", ex.getMessage()
         );
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(body);
     }
@@ -45,9 +45,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, Object>> handleIllegalArgument(IllegalArgumentException ex) {
         Map<String,Object> body = Map.of(
-                "timestamp: ", LocalDateTime.now(),
-                "status: ", HttpStatus.BAD_REQUEST.value(),
-                "message: ", ex.getMessage()
+                "timestamp", LocalDateTime.now(),
+                "status", HttpStatus.BAD_REQUEST.value(),
+                "message", ex.getMessage()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
@@ -55,9 +55,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<Map<String, Object>> handleIllegalState(IllegalStateException ex) {
         Map<String,Object> body = Map.of(
-                "timestamp: ", LocalDateTime.now(),
-                "status: ", HttpStatus.CONFLICT.value(),
-                "message: ", ex.getMessage()
+                "timestamp", LocalDateTime.now(),
+                "status", HttpStatus.CONFLICT.value(),
+                "message", ex.getMessage()
         );
         return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
     }
