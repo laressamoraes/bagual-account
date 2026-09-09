@@ -14,7 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -47,7 +46,7 @@ public class AccountServiceTest {
         when(accountRepository.save(any(Account.class))).thenThrow(new RuntimeException("Erro de conexão com o banco!"));
         assertThatThrownBy(() -> accountService.createAccount(requestDTO))
                 .isInstanceOf(RuntimeException.class)
-                .hasMessageContaining("Erro de conexão com o Banco!");
+                .hasMessageContaining("Erro de conexão com o banco!");
     }
 
     @Test
