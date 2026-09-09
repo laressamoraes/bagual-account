@@ -49,6 +49,9 @@ public class Account {
     }
 
     public void debit(BigDecimal amount) {
+        validatePositiveAmount(amount);
+        validateActiveAccount();
+
         if (this.balance.compareTo(amount) < 0) {
             throw new InsufficientBalanceException("Saldo insuficiente para débito de " + amount);
         }
@@ -56,7 +59,30 @@ public class Account {
     }
 
     public void credit(BigDecimal amount) {
+        validatePositiveAmount(amount);
+        validateActiveAccount();
+
         this.balance = this.balance.add(amount);
+    }
+
+    public void block() {
+        this.accountStatus = AccountStatus.BLOQUEADA;
+    }
+
+    public void activate() {
+        this.accountStatus = AccountStatus.ATIVA;
+    }
+
+    private void validatePositiveAmount(BigDecimal amount) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("O valor deve ser positivo!");
+        }
+    }
+
+    private void validateActiveAccount() {
+        if (this.accountStatus != AccountStatus.ATIVA) {
+            throw new IllegalStateException("Conta não está ativa para movimentação!");
+        }
     }
 
     public UUID getAccountId() {
