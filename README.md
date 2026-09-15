@@ -66,7 +66,7 @@ mvn test
 
 # Tecnologias
 - Java 21 + Spring Boot 3;
-- Maven/Gradle;
+- Maven;
 - PostgreSQL;
 - Flyway;
 - JUnit 5 e Mockito;
