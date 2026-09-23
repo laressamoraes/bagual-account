@@ -2,7 +2,9 @@
 Microsserviço de contas do Bagual Bank: cadastro de contas, consulta de saldo, débito e crédito.
 
 ## Sobre o serviço
-Consumido pelo `transaction` via REST para processar depósitos, saques e transferências. As regras de negócio estão na entidade 'Account' afim de proteger o estado interno de manipulação indevida.
+Consumido pelo `transaction` via REST para processar depósitos, saques e transferências. 
+
+As regras de negócio estão na entidade 'Account' afim de proteger o estado interno de manipulação indevida.
 
 ## Funcionalidades implementadas
 * Criar conta (`POST /accounts`)
