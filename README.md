@@ -1,75 +1,47 @@
-# bagual-bank
-Sistema financeiro simplificado construído em arquitetura de microsserviços, simulando operações bancárias básicas como criação de conta, depósito, saque e transferências.
+# account
+Microsserviço de contas do Bagual Bank: cadastro de contas, consulta de saldo, débito e crédito.
 
-No Rio Grande do Sul, bagual é um termo que serve pra descrever um cavalo xucro, selvagem, não domado. Mas quando usado pra se referir a pessoas, representa coragem, resiliência e autenticidade.
+## Sobre o serviço
+Consumido pelo `transaction` via REST para processar depósitos, saques e transferências. As regras de negócio estão na entidade 'Account' afim de proteger o estado interno de manipulação indevida.
 
-# Sobre o projeto
-Tem como objetivo aplicar os conceitos e ferramentas utilizados em sistemas corporativos de médio/grande porte: comunicação entre serviços, consistência de dados distribuídos, testes automatizados e containerização.
-
-# Arquitetura
-O sistema é dividido em microsserviços independentes:
-| SERVIÇO | RESPONSABILIDADE | STATUS |
-|---|---|---|
-| account      | Cadastro de contas, consulta de saldo, débito/crédito | **Implementado** |
-| transaction  | Depósitos, saques e transferências entre contas       | **Não iniciado** |
-| notification | Notificações assíncronas sobre transações realizadas  | **Não iniciado** |
-
-## account - funcionalidades implementadas
-* Criar conta ('POST /accounts')
-* Buscar conta por id ('GET /accounts/{id}')
-* Listar contas ('GET /accounts')
-* Débito de Saldo ('PATCH /accounts/{id}/debit')
-* Crédito de saldo ('PATCH /accounts/{id}/credit')
+## Funcionalidades implementadas
+* Criar conta (`POST /accounts`)
+* Buscar conta por id (`GET /accounts/{id}`)
+* Listar contas (`GET /accounts`)
+* Débito de Saldo (`PATCH /accounts/{id}/debit`)
+* Crédito de saldo (`PATCH /accounts/{id}/credit`)
 * Bloqueio/ativação de conta
 * Validação de dados de entrada
 * Migração de schema com Flyway
 * Testes unitários (regra de negócio e service layer)
 * Containerização completa (aplicação + banco via Docker Compose)
 
+## Tecnologias
+- Java 21 + Spring Boot 3;
+- Maven;
+- PostgreSQL;
+- Flyway;
+- JUnit 5, Mockito e AssertJ;
+- Docker e Docker Compose.
+
+## Decisões técnicas
+* **UUID como identificador, em vez de sequencial:** é mais adequado à arquiteturas distribuídas e evita enumeration attacks;
+* **BigDecimal para valores monetários:** evita erros de arredondamento de ponto flutuante;
+* **Rich Domain Model:** regras de negócio vivem na entidade, não apenas no service;
+* **Unique Constraint composta (document + account_type):** permite que o mesmo CPF tenha contas de tipos diferentes.
+
 ## Como executar
 
-#### Pré-requisito
-
-- Docker Desktop instalado e em execução.
-
-#### Subindo a aplicação
-
-Na raiz do projeto, execute:
+Pré-requisito: Docker Desktop instalado e em execução.
 
 ```bash
 docker compose up --build -d
 ```
 
-A API estará disponível em:
-
-`http://localhost:8081`
-
-#### Parando a aplicação
-
-Para parar os containers:
-
-```bash
-docker compose down
-```
-
-Para parar os containers e remover os dados do banco:
-
-```bash
-docker compose down -v
-```
+A API fica disponível em: http://localhost:8081
 
 ## Rodando os testes
-
-Para executar os testes automatizados:
 
 ```bash
 mvn test
 ```
-
-# Tecnologias
-- Java 21 + Spring Boot 3;
-- Maven;
-- PostgreSQL;
-- Flyway;
-- JUnit 5 e Mockito;
-- Docker e Docker Compose.
