@@ -37,7 +37,7 @@ Protegido com OAuth2/JWT via Keycloak ([bagual-auth](https://github.com/laressam
 
 ## Como executar
 
-Pré-requisito: Docker Desktop instalado e em execução, e o [bagual-auth](https://github.com/laressamoraes/bagual-auth) rodando.
+Pré-requisito: Docker Desktop instalado e em execução, e o [auth](https://github.com/laressamoraes/bagual-auth) rodando.
 
 ```bash
 docker compose up --build -d
