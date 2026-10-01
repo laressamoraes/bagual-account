@@ -18,5 +18,8 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/account_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
+      KEYCLOAK_JWK_URI: http://host.docker.internal:8180/realms/bagual-bank/protocol/openid-connect/certs
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "8081:8081"
