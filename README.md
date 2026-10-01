@@ -4,7 +4,7 @@ Microsserviço de contas do Bagual Bank: cadastro de contas, consulta de saldo, 
 ## Sobre o serviço
 Consumido pelo `transaction` via REST para processar depósitos, saques e transferências. 
 
-As regras de negócio estão na entidade 'Account' afim de proteger o estado interno de manipulação indevida.
+As regras de negócio estão na entidade `Account` a fim de proteger o estado interno de manipulação indevida.
 
 ## Funcionalidades implementadas
 * Criar conta (`POST /accounts`)
@@ -17,6 +17,9 @@ As regras de negócio estão na entidade 'Account' afim de proteger o estado int
 * Migração de schema com Flyway
 * Testes unitários (regra de negócio e service layer)
 * Containerização completa (aplicação + banco via Docker Compose)
+
+## Segurança
+Protegido com OAuth2/JWT via Keycloak ([bagual-auth](https://github.com/laressamoraes/bagual-auth)). Todos os endpoints exigem um token Bearer válido.
 
 ## Tecnologias
 - Java 21 + Spring Boot 3;
@@ -34,7 +37,7 @@ As regras de negócio estão na entidade 'Account' afim de proteger o estado int
 
 ## Como executar
 
-Pré-requisito: Docker Desktop instalado e em execução.
+Pré-requisito: Docker Desktop instalado e em execução, e o [auth](https://github.com/laressamoraes/bagual-auth) rodando.
 
 ```bash
 docker compose up --build -d
